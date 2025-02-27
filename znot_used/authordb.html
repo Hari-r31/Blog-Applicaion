@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Author Dashboard{% endblock %}
+{% block css %} href="{% static 'css/authordb.css' %}"{% endblock %}
+
+{% block content %}
+
+{% csrf_token %}
+
+<div>
+    <!-- Profile Button -->
+    <button id="profile-btn" style="padding: 10px 20px; font-size: 16px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+        Profile
+    </button>
+</div>
+
+<!-- Modal Container -->
+<div id="profile-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h2>My Profile</h2>
+        <div>
+            <!-- Display profile image -->
+            <img src="{{ user.profile.image.url }}" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px;">
+        </div>
+        <div>
+            <!-- Display user details -->
+            <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Username:</strong> {{ user.username }}</p>
+        </div>
+        <div>
+            <!-- Logout button -->
+            <a href="{% url 'myapp:logout' %}">
+                <button style="padding: 10px 20px; font-size: 14px; color: #fff; background-color: #dc3545; border: none; border-radius: 5px; cursor: pointer;">
+                    Log Out
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="author-dashboard">
+    <!-- Blog Table Container -->
+    <div class="table-container">
+        <h2>Your Blogs</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>S.No</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Image</th>
+                    <th>Date Added</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for blog in blogs %}
+                <tr>
+                    <td><input type="checkbox" name="selected_blogs" value="{{ blog.id }}"></td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ blog.title }}</td>
+                    <td>{{ blog.content|truncatewords:10 }}</td>
+                    <td>
+                        {% if blog.image %}
+                            <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="blog-image">
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td>{{ blog.created_at|date:"Y-m-d" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Action Buttons Container -->
+    <div class="action-buttons">
+        <button id="add-btn">Add</button>
+        <button id="alter-btn">Alter</button>
+        <button id="delete-btn">Delete</button>
+    </div>
+
+    <!-- Operation Container -->
+    <div class="operation-container" id="operation-container">
+        <!-- Add Blog Form -->
+        <div class="form-container" id="add-form" style="display: none;">
+            <h3>Add New Blog</h3>
+            <form method="POST" enctype="multipart/form-data" action="{% url 'myapp:add_blog' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="content">Content:</label>
+                    <textarea id="content" name="content" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image:</label>
+                    <input type="file" id="image" name="image">
+                </div>
+                <button type="submit">Add Blog</button>
+            </form>
+        </div>
+
+        <!-- Alter Blog Form -->
+        <div class="form-container" id="alter-form" style="display: none;">
+            <h3>Alter Blog</h3>
+            <form method="POST" enctype="multipart/form-data" action="#">
+                {% csrf_token %}
+                <input type="hidden" id="alter-blog-id" name="blog_id">
+                <div class="form-group">
+                    <label for="alter-title">Title:</label>
+                    <input type="text" id="alter-title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="alter-content">Content:</label>
+                    <textarea id="alter-content" name="content" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="alter-image">Image:</label>
+                    <input type="file" id="alter-image" name="image">
+                </div>
+                <button type="submit">Update Blog</button>
+            </form>
+        </div>
+
+        <!-- Delete Confirmation -->
+        <div class="form-container" id="delete-confirmation" style="display: none;">
+            <h3>Delete Selected Blogs</h3>
+            <p>Are you sure you want to delete the selected blogs?</p>
+            <form method="POST" action="#">
+                {% csrf_token %}
+                <input type="hidden" id="delete-blog-ids" name="blog_ids">
+                <button type="submit">Yes, Delete</button>
+                <button type="button" id="cancel-delete">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript for Interaction -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addBtn = document.getElementById('add-btn');
+        const alterBtn = document.getElementById('alter-btn');
+        const deleteBtn = document.getElementById('delete-btn');
+        const operationContainer = document.getElementById('operation-container');
+        const addForm = document.getElementById('add-form');
+        const alterForm = document.getElementById('alter-form');
+        const deleteConfirmation = document.getElementById('delete-confirmation');
+        const cancelDelete = document.getElementById('cancel-delete');
+
+        addBtn.addEventListener('click', function() {
+            addForm.style.display = 'block';
+            alterForm.style.display = 'none';
+            deleteConfirmation.style.display = 'none';
+        });
+
+        alterBtn.addEventListener('click', function() {
+            const selected = document.querySelectorAll('input[name="selected_blogs"]:checked');
+            if (selected.length !== 1) {
+                alert('Please select exactly one blog to alter.');
+                return;
+            }
+            const blogId = selected[0].value;
+            // Fetch blog data via AJAX or include in the template
+            // For simplicity, assuming blog data is available in the DOM
+            const row = selected[0].closest('tr');
+            const title = row.cells[2].innerText;
+            const content = row.cells[3].innerText;
+            // Populate the alter form
+            document.getElementById('alter-blog-id').value = blogId;
+            document.getElementById('alter-title').value = title;
+            document.getElementById('alter-content').value = content;
+            addForm.style.display = 'none';
+            alterForm.style.display = 'block';
+            deleteConfirmation.style.display = 'none';
+        });
+
+        deleteBtn.addEventListener('click', function() {
+            const selected = document.querySelectorAll('input[name="selected_blogs"]:checked');
+            if (selected.length === 0) {
+                alert('Please select at least one blog to delete.');
+                return;
+            }
+            const blogIds = Array.from(selected).map(input => input.value).join(',');
+            document.getElementById('delete-blog-ids').value = blogIds;
+            addForm.style.display = 'none';
+            alterForm.style.display = 'none';
+            deleteConfirmation.style.display = 'block';
+        });
+
+        cancelDelete.addEventListener('click', function() {
+            deleteConfirmation.style.display = 'none';
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const profileBtn = document.getElementById('profile-btn');
+        const modal = document.getElementById('profile-modal');
+        const closeModal = document.getElementById('close-modal');
+
+        // Open Modal
+        profileBtn.addEventListener('click', function () {
+            modal.style.display = 'block';
+        });
+
+        // Close Modal
+        closeModal.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+
+        // Close Modal on Click Outside
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

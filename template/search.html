@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Search{% endblock %}
+{% block css %} href="{% static 'css/search.css' %}"{% endblock %}
+
+{% block content %}
+<div class="search-container">
+    <h1>Search Blogs</h1>
+    <form method="GET" action="#">
+        <div class="search-options">
+            <select name="filter" required>
+                <option value="title">Blog Title</option>
+                <option value="author">Author</option>
+                <option value="keywords">Keywords</option>
+            </select>
+            <input type="text" name="query" placeholder="Enter your search query..." required>
+            <button type="submit">Search</button>
+        </div>
+    </form>
+</div>
+
+<div class="results-container">
+    {% if results %}
+        <h2>Search Results:</h2>
+        <ul>
+            {% for result in results %}
+                <li>
+                    <a href="#">
+                        <h3>{{ result.title }}</h3>
+                        <p><strong>Author:</strong> {{ result.author }}</p>
+                        <p><strong>Keywords:</strong> {{ result.keywords }}</p>
+                        <p>{{ result.content|truncatewords:20 }}</p>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif query %}
+        <p>No results found for "{{ query }}". Try different keywords or filters.</p>
+    {% else %}
+        <p>Start searching by entering your query and selecting a filter above.</p>
+    {% endif %}
+</div>
+{% endblock %}

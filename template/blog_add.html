@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Add Blog{% endblock %}
+
+{% block css %}href="{% static 'css/blog_add.css' %}"{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="title">Add New Blog</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Title Field -->
+        <div class="form-group">
+            <label for="id_title">Title:</label>
+            {{ form.title }}
+        </div>
+
+        <!-- Content Field -->
+        <div class="form-group">
+            <label for="id_content">Content:</label>
+            {{ form.content }}
+        </div>
+
+        <!-- Image Field -->
+        <div class="form-group">
+            <label for="id_image">Image:</label>
+            {{ form.image }}
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-actions">
+            <button type="submit" class="btn save-btn">Save Blog</button>
+            <a href="{% url 'myapp:author_dashboard' %}" class="btn cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

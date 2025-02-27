@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Blogs by {{ user.username }}{% endblock %}
+
+{% block internal %}
+<style>
+    /* Blog Section Styles */
+    .blogs-section {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 90%;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .blogs-section h2 {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 20px;
+        color: #444;
+    }
+
+    .blog-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .blog-item {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .blog-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .blog-item img {
+        max-width: 100%;
+        max-height: 150px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        max-width: 80vw; /* Adjust modal width */
+        max-height: 80vh; /* Restrict modal height */
+        overflow-y: auto; /* Enable vertical scrolling if content overflows */
+        text-align: center;
+        box-sizing: border-box; /* Ensure padding is considered in width/height */
+    }
+
+    /* Close Button */
+    .modal .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #ff5c5c;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        font-size: 1.2em;
+    }
+
+    /* Modal Image */
+    .modal img {
+        width: auto;
+        max-height: 250px; /* Adjust image height */
+        margin-bottom: 20px; /* Space between image and text */
+        object-fit: cover;
+        border-radius: 8px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Modal Content Text */
+    .modal p {
+        font-size: 1em;
+        color: #444;
+        line-height: 1.6;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+    .modal {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #007BFF #f4f4f4; /* For Firefox */
+}
+
+.modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background: #007BFF;
+    border-radius: 4px;
+}
+
+.modal::-webkit-scrollbar-track {
+    background: #f4f4f4;
+}
+
+#goback_container{
+    display: flex;
+    justify-content: center;
+
+}
+
+#goback_container button {
+    display: inline-block;
+    margin: 15px auto;
+    padding: 10px 20px;
+    font-size: 1em;
+    text-decoration: none;
+    color: #fff;
+    background-color: #333;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+}
+
+#goback_container button:hover {
+    background-color: #555;
+    transform: translateY(-3px);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="blogs-section">
+    <h2>Blogs by {{ user.username }}</h2>
+    <div class="blog-list">
+        {% for blog in user_blogs %}
+            <div class="blog-item" onclick="openModal('{{ blog.title }}','{{ blog.image.url }}', '{{ blog.content|escapejs }}')">
+                <h3>{{ blog.title }}</h3>
+                {% if blog.image %}
+                <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+                {% endif %}
+                <p>{{ blog.content|truncatewords:30 }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="goback_container">
+        <a href="{% url 'home' %}"> <button>Go Back</button></a>
+    </div>
+</section>
+
+<!-- Modal Structure -->
+<div id="modal" class="modal">
+    <button class="close-btn" onclick="closeModal()">×</button>
+    <h3 id="modal-title"></h3>
+    <img id="modal-image" src="" alt="Blog Image">
+    <p id="modal-content"></p>
+</div>
+<div id="modal-overlay" class="modal-overlay" onclick="closeModal()"></div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function openModal(title, imageUrl, content) {
+        // Set image source and content for modal
+        document.getElementById("modal-title").textContent = title;
+        document.getElementById("modal-image").src = imageUrl;
+        document.getElementById("modal-content").textContent = content;
+
+        // Show the modal and overlay
+        document.getElementById("modal").style.display = "block";
+        document.getElementById("modal-overlay").style.display = "block";
+    }
+
+    function closeModal() {
+        // Hide the modal and overlay
+        document.getElementById("modal").style.display = "none";
+        document.getElementById("modal-overlay").style.display = "none";
+    }
+</script>
+
+{% endblock %}

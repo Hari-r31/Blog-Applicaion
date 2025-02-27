@@ -1,0 +1,116 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Application</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-image: url("{% static 'img/index-bg.jpeg' %}"); 
+    /* background-color: #007BFF; */
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+.container {
+    /* background-image: url("{% static 'img/index-bg.jpeg' %}");  */
+    width: 80%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.7); 
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #333;
+}
+
+h2 {
+    color: #333;
+}
+
+.description {
+    margin-bottom: 30px;
+}
+
+p {
+    line-height: 1.6;
+    color: #555;
+}
+
+.cta {
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 25px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+    background-color: #555;
+    transform: scale(1.05);
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #777;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to Our Blog!</h1>
+            <p>Your journey into the world of blogging starts here.</p>
+        </header>
+        <main>
+            <section class="description">
+                <h2>Why Blog with Us?</h2>
+                <p>
+                    Our blog application provides a user-friendly platform for you to share your thoughts, ideas, and experiences with the world. 
+                    Whether you're a seasoned writer or just starting out, we have the tools you need to create engaging content.
+                </p>
+                <p>
+                    Join our community of passionate bloggers and connect with readers who share your interests. 
+                    Start your blogging journey today and let your voice be heard!
+                </p>
+            </section>
+            <section class="cta">
+                <h2>Ready to Get Started?</h2>
+                <a href="{% url 'home' %}" class="btn">Click Here</a>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Blog Application. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

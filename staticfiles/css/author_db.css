@@ -1,0 +1,279 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+#main{
+    max-height: 600px; /* Adjust as needed */
+    overflow-y: auto;  /* To make it scrollable if the content overflows */
+    padding: 20px;
+}
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 40%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+/* Profile Details */
+.modal-content img {
+    border: 3px solid #007bff;
+}
+
+.modal-content p {
+    margin: 10px 0;
+    color: #555;
+}
+
+
+/* Author Dashboard Container */
+.author-dashboard {
+    width: 80%;
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Table Container */
+.table-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.table-container h2 {
+    margin-bottom: 15px;
+    color: #007BFF;
+    text-align: left;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table thead {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+table th {
+    font-size: 1rem;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.blog-image {
+    width: 50px;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Action Buttons Container */
+.action-buttons {
+    margin: 20px 0;
+    text-align: right;
+}
+
+.action-buttons button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons button:hover {
+    background-color: #0056b3;
+}
+
+/* Operation Container */
+.operation-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Form Container */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-container h3 {
+    margin-bottom: 15px;
+    color: #007BFF;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group input[type="file"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-container button[type="submit"],
+.form-container button[type="button"] {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #28a745; /* Green for submit */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button[type="button"] {
+    background-color: #dc3545; /* Red for cancel/delete */
+}
+
+.form-container button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.form-container button[type="button"]:hover {
+    background-color: #c82333;
+}
+
+/* Delete Confirmation */
+#delete-confirmation p {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#delete-confirmation form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .action-buttons {
+        text-align: center;
+    }
+
+    .action-buttons button {
+        margin: 10px 5px 0 5px;
+        width: 100px;
+    }
+
+    .blog-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .table-container, .operation-container {
+        padding: 15px;
+    }
+
+    .form-container {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .table-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .action-buttons button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .form-container h3 {
+        font-size: 1.3rem;
+    }
+
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group input[type="file"] {
+        font-size: 0.9rem;
+    }
+
+    .form-container button[type="submit"],
+    .form-container button[type="button"] {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
