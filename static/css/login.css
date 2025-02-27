@@ -1,0 +1,100 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container for the Login Form */
+.container {
+    width: 100%;
+    max-width: 800px; /* Increase max-width for a larger form */
+    min-height: 500px; /* Set a minimum height for the form */
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 50px; /* Increase padding for more space inside the form */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2.5rem; /* Increase the font size of the heading */
+    text-align: center;
+    margin-bottom: 30px; /* Increase margin for more space between heading and form */
+    color: #007BFF;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Increase gap between form elements */
+}
+
+/* Form Group */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 1.2rem; /* Increase label font size */
+    color: #333;
+    margin-bottom: 10px; /* Increase margin between label and input */
+}
+
+.form-group input {
+    padding: 12px; /* Increase input field padding */
+    font-size: 1.1rem; /* Increase input font size */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #007BFF;
+}
+
+/* Button Styling */
+button {
+    padding: 15px; /* Increase button padding */
+    font-size: 1.2rem; /* Increase button font size */
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+        margin: 40px auto;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    .form-group input {
+        font-size: 1.1rem;
+    }
+
+    button {
+        font-size: 1.1rem;
+    }
+}

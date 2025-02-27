@@ -1,0 +1,66 @@
+/* Modify Account Section */
+.modify-account-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modify-account-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.modify-account-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modify-account-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.modify-account-form input,
+.modify-account-form textarea,
+.modify-account-form select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modify-account-form .save-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.modify-account-form .save-btn:hover {
+    background-color: #218838;
+}
+
+.modify-account-form .cancel-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.modify-account-form .cancel-btn:hover {
+    background-color: #5a6268;
+}
